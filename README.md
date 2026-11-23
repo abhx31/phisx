@@ -49,7 +49,7 @@ PhisX is a Chrome extension designed to detect and block phishing URLs in real-t
 
 6. CI/CD - GitHub Actions builds the API image and pushes it to Docker Hub
 
-7. Deployment - Render runs the image from Docker Hub
+7. Deployment - Render runs the image from Docker Hub --> [https://phisx-api-latest.onrender.com/health](https://phisx-api-latest.onrender.com/health)
 
 
 ## Project Structure
@@ -139,7 +139,7 @@ The pipeline is defined in [`.github/workflows/deploy-api.yml`](.github/workflow
 ### One-time setup
 
 1. **Docker Hub:** create an access token with Read & Write permission (Account settings -> Personal access tokens).
-2. **GitHub:** in **Settings -> Secrets and variables -> Actions**, add:
+2. **GitHub:** in **Settings -> Secrets and variables -> Actions**, add these as **Repository secrets** (not Environment secrets, which the workflow can't read):
    - `DOCKERHUB_USERNAME`: your Docker Hub username
    - `DOCKERHUB_TOKEN`: the token from step 1
 3. **Push to `main`** so the workflow builds and pushes the first image. The Render step is skipped until its secret exists.
