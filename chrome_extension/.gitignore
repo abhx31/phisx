@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Packaged extension for the Chrome Web Store
+*.zip

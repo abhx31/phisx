@@ -4,19 +4,24 @@
     "name": "PhisX",
     "description": "Detects phishing website URLs",
     "action": {
-        "default_popup": "index.html"
+        "default_popup": "index.html",
+        "default_icon": {
+            "16": "icon-16.png",
+            "32": "icon-32.png",
+            "48": "icon-48.png",
+            "128": "icon-128.png"
+        }
     },
     "permissions": [
         "activeTab"
     ],
     "host_permissions": [
-        "http://*/*",
-        "https://*/*"
+        "https://phisx-api-latest.onrender.com/*"
     ],
     "icons": {
-        "16": "icon.png",
-        "32": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
+        "16": "icon-16.png",
+        "32": "icon-32.png",
+        "48": "icon-48.png",
+        "128": "icon-128.png"
     }
 }
