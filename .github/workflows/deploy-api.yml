@@ -1,0 +1,46 @@
+name: Build and deploy API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Flask API/**"
+      - ".github/workflows/deploy-api.yml"
+  workflow_dispatch:
+
+env:
+  IMAGE: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/phisx-api
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Push both :latest and an immutable :sha tag so Render deploys an exact build
+      - uses: docker/build-push-action@v6
+        with:
+          context: "Flask API"
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Skipped until the secret exists, so the first run (before the Render service is created) still succeeds
+      - name: Trigger Render deploy
+        if: env.RENDER_DEPLOY_HOOK_URL != ''
+        run: |
+          curl -fsS -G "$RENDER_DEPLOY_HOOK_URL" \
+            --data-urlencode "imgURL=${IMAGE}:${GITHUB_SHA}"
