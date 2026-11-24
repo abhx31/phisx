@@ -6,7 +6,7 @@ import { Lottie } from "lottie-react";
 import phishingAnimation from "./assets/lottie/phising.json";
 import legitimateAnimation from "./assets/lottie/legitimate.json";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:5000";
+const API_URL = "https://phisx-api-latest.onrender.com";
 
 function App() {
   const [status, setStatus] = useState<string | null>(null);
